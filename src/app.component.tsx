@@ -18,7 +18,7 @@
 // );
 
 // export default App;
-import React, { FC, ChangeEvent, useState } from 'react';
+import React, { FC, ChangeEvent, useState, useEffect } from 'react';
 import Header from './components/Header';
 import AddItem from './components/AddItem';
 import Content from './components/Content';
@@ -49,6 +49,12 @@ const App: FC = () => {
   ]);
 
   const [newItem, setNewItem] = useState<string>('');
+
+  useEffect(() => {
+    fetch('/api/app/config')
+      .then(res => res.json())
+      .then(res => console.log('DATA: ', res));
+  }, []);
 
   const handleChecked = (id: number): void => {
     const listItems = items.map(item =>
