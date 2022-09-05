@@ -6,10 +6,9 @@ import {  useQuery } from '@tanstack/react-query';
 
 interface Props {
   tasks: ITask[];
-  handleChecked(id: number): void;
 }
 
-const TaskList = ({ handleChecked, tasks }: Props) => {
+const TaskList = ({ tasks }: Props) => {
 
   const fetchTasks = async () => {
     const response = await fetch(`/api/tasks/`);
@@ -28,14 +27,12 @@ const TaskList = ({ handleChecked, tasks }: Props) => {
   }
   return (
     <>
-    <ul className="bg-gray-200 py-2">
+    <ul className=" py-2">
       {data.map((task: ITask) => (
         <Task
           key={task.id}
           task={task}
-          handleChecked={handleChecked}
-          tasks={tasks}
-        />
+          tasks={tasks} checked={undefined}        />
       ))}
     </ul>
     </>

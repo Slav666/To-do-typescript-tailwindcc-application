@@ -1,6 +1,11 @@
 import { rest } from 'msw';
 
-import { addTask, deleteTask, getTasks } from '~/mocks/fixtures/taskTodo';
+import {
+  addTask,
+  deleteTask,
+  getTasks,
+  updateChecked,
+} from '~/mocks/fixtures/taskTodo';
 
 const URL_PATH = '/api/tasks/';
 
@@ -11,11 +16,15 @@ const getTasksHandler = rest.get(URL_PATH, (req, res, ctx) => {
 
 const addTaskHandler = rest.post(URL_PATH, (req, res, ctx) => {
   const newTask = req.body;
-  console.log('task to create', newTask);
   addTask(newTask);
   const tasks = getTasks();
-  console.log('new task list', tasks);
   return res(ctx.status(200), ctx.json(tasks));
+});
+
+const updateCheckedHandler = rest.patch(`${URL_PATH}:id`, (req, res, ctx) => {
+  const newTask = req.body;
+  updateChecked(newTask);
+  return res(ctx.status(200), ctx.json(getTasks()));
 });
 
 const deleteTaskHandler = rest.delete(`${URL_PATH}:id`, (req, res, ctx) => {
@@ -23,6 +32,11 @@ const deleteTaskHandler = rest.delete(`${URL_PATH}:id`, (req, res, ctx) => {
   return res(ctx.status(200), ctx.json(getTasks()));
 });
 
-const handlers = [getTasksHandler, addTaskHandler, deleteTaskHandler];
+const handlers = [
+  getTasksHandler,
+  addTaskHandler,
+  deleteTaskHandler,
+  updateCheckedHandler,
+];
 
 export default handlers;

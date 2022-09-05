@@ -1,4 +1,6 @@
-let tasks = [
+/* eslint-disable prettier/prettier */
+import {ITask} from '../../components/Interfaces'
+let tasks: ITask[] = [
   {
     id: 1,
     checked: false,
@@ -28,24 +30,24 @@ let tasks = [
 
 const getTasks = () => tasks;
 
-const addTask = (taskData: any) => {
-  console.log('fixture task to add', taskData);
+const addTask = (taskData: ITask) => {
   const id = getTasks().length + 1;
   const newTask = {
     ...taskData,
     id,
   };
-  console.log('fixture new task', newTask);
   tasks.push(newTask);
   return newTask;
 };
-
+const updateChecked = ( updatedTask: { id: number; }, ) => {
+  const listTasks = tasks.map(
+    task => (task.id === updatedTask.id ? updatedTask : task),
+  );
+  tasks = listTasks;
+};
 const deleteTask = (deletionId: number) => {
-  console.log('ID', deletionId);
-  const taskToDelete = tasks.find(task => task.id === deletionId);
-  console.log('task to delete', taskToDelete);
+  const taskToDelete: ITask = tasks.find(task => task.id === deletionId);
   tasks = tasks.filter(task => task.id !== taskToDelete.id);
-  console.log('tasks', tasks);
 };
 
-export { getTasks, addTask, deleteTask };
+export { getTasks, addTask, deleteTask, updateChecked };
